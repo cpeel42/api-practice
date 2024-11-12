@@ -5,30 +5,27 @@
   <title>Document</title>
 </head>
 <body>
-  <div style="display: block;">
-    <input type="text" placeholder="search">
-    <button>Refresh</button>
-  </div>
+  <form style="display: block;">
+    <input class="search" type="text" placeholder="search">
+    <input class="submit" type="submit">
+  </form>
   <img src="#">
   <script>
-    const input = document.querySelector('input')
-    const button = document.querySelector('search')
+    const input = document.querySelector('.search')
+    const button = document.querySelector('.submit')
     const img = document.querySelector('img')
     
     button.addEventListener('click', (event) => {
+      event.preventDefault()
       getImage()
     })
 
-    function getImage() {
+    async function getImage() {
       const searchTerm = input.value;
-      fetch(`https://api.giphy.com/v1/gifs/translate?api_key=8RSb3MhMR52q2DgaCH43NSfANtmFEk6x&s=${searchTerm}`, {mode: 'cors'})
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(response) {
-        img.src = response.data.images.original.url;
-      });
-    }
+      const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=8RSb3MhMR52q2DgaCH43NSfANtmFEk6x&s=${searchTerm}`, {mode: 'cors'})
+      result = await response.json();
+      img.src = result.data.images.original.url;
+    };
   </script>
 </body>
 </html>
